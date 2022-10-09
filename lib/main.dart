@@ -14,6 +14,7 @@ class ToDoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: Themes.themeLight,
       //this static variable you don't need to () to access the var just use name of class . name of var
       darkTheme: Themes.themeDark,

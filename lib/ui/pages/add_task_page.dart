@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/controllers/task_controller.dart';
 import 'package:todo/ui/theme.dart';
 import 'package:todo/ui/widgets/button.dart';
 import 'package:todo/ui/widgets/input_field.dart';
@@ -14,23 +15,20 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
+  final TaskController  _taskController = Get.put(TaskController());
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   final DateTime _selectDate = DateTime.now();
   final String _startTime =
-  DateFormat('hh:mm a').format(DateTime.now()).toString();
+      DateFormat('hh:mm a').format(DateTime.now()).toString();
   final String _endTime = DateFormat('hh:mm a')
       .format(DateTime.now().add(const Duration(minutes: 15)))
       .toString();
   final List<int> _remindList = [5, 15, 20, 25];
   int _selectRemind = 5;
   String _selectRepeat = 'None';
-  final List<String> _repeatList = [
-    'None',
-    'Daily',
-    'Weekly',
-    'Monthly',
-  ];
+  final List<String> _repeatList = ['None', 'Daily', 'Weekly', 'Monthly'];
   int _selectColor = 0;
 
   @override
@@ -43,7 +41,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Text(
                   'Add Task',
                   style: headingStyle,
@@ -63,7 +63,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   hint: DateFormat.yMd().format(_selectDate).toString(),
                   widget: IconButton(
                     icon: const Icon(
-                      Icons.date_range_outlined, color: Colors.grey,),
+                      Icons.date_range_outlined,
+                      color: Colors.grey,
+                    ),
                     onPressed: () {},
                   ),
                 ),
@@ -82,7 +84,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10,),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     Expanded(
                       child: InputField(
                         title: 'End Time',
@@ -120,19 +124,19 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         },
                         items: _remindList
                             .map<DropdownMenuItem<String>>(
-                              (value) =>
-                              DropdownMenuItem(
+                              (value) => DropdownMenuItem(
                                 value: value.toString(),
                                 child: Text(
                                   '$value',
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ),
-                        )
+                            )
                             .toList(),
-
                       ),
-                      const SizedBox(width: 10,),
+                      const SizedBox(
+                        width: 10,
+                      ),
                     ],
                   ),
                 ),
@@ -159,22 +163,25 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         },
                         items: _repeatList
                             .map(
-                              (value) =>
-                              DropdownMenuItem(
+                              (value) => DropdownMenuItem(
                                 child: Text(
                                   value,
                                   style: const TextStyle(color: Colors.white),
                                 ),
                                 value: value,
                               ),
-                        )
+                            )
                             .toList(),
                       ),
-                      const SizedBox(width: 10,)
+                      const SizedBox(
+                        width: 10,
+                      )
                     ],
                   ),
                 ),
-                const SizedBox(height: 18,),
+                const SizedBox(
+                  height: 18,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -187,7 +194,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         }),
                   ],
                 ),
-
               ],
             ),
           )),
@@ -195,58 +201,63 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   AppBar buildAppBar() => AppBar(
-    leading: IconButton(
-      onPressed: ()=> Get.back(),
-      icon: const Icon(Icons.arrow_back_ios,size: 24,color: primaryClr,),
-    ),
-    elevation: 0,
-    backgroundColor: context.theme.backgroundColor,
-    actions: const [
-      CircleAvatar(
-        backgroundImage: AssetImage('assets/images/person.jpeg'),
-        radius: 18,
-      ),
-      SizedBox(width: 18,)
-    ],
-  );
-
-
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 24,
+            color: primaryClr,
+          ),
+        ),
+        elevation: 0,
+        backgroundColor: context.theme.backgroundColor,
+        actions: const [
+          CircleAvatar(
+            backgroundImage: AssetImage('assets/images/person.jpeg'),
+            radius: 18,
+          ),
+          SizedBox(
+            width: 18,
+          )
+        ],
+      );
 
   Column buildColumn() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Color', style: titleStyle),
-        const SizedBox(height: 8,),
+        const SizedBox(
+          height: 8,
+        ),
         Wrap(
           children: List.generate(
             3,
-                (index) =>
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectColor = index;
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: CircleAvatar(
-                      backgroundColor: index == 0
-                          ? primaryClr
-                          : index == 1
+            (index) => GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selectColor = index;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: CircleAvatar(
+                  backgroundColor: index == 0
+                      ? primaryClr
+                      : index == 1
                           ? pinkClr
                           : orangeClr,
-                      radius: 14,
-                      child: _selectColor == index
-                          ? const Icon(
-                        Icons.done,
-                        size: 16,
-                        color: Colors.white,
-                      )
-                          : null,
-                    ),
-                  ),
+                  radius: 14,
+                  child: _selectColor == index
+                      ? const Icon(
+                          Icons.done,
+                          size: 16,
+                          color: Colors.white,
+                        )
+                      : null,
                 ),
+              ),
+            ),
           ),
         )
       ],
