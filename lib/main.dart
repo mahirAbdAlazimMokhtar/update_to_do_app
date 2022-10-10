@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:todo/services/notification_services.dart';
 import 'package:todo/services/theme_services.dart';
 import 'package:todo/ui/theme.dart';
 
+
+
 import 'home_screen.dart';
 
-void main() => runApp(const ToDoApp());
+Future<void> main() async {
+
+
+  runApp(const ToDoApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  //await NotifyHelper().initializeNotification();
+}
 
 
 class ToDoApp extends StatelessWidget {

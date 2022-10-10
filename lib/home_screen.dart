@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/services/notification_services.dart';
 import 'package:todo/services/theme_services.dart';
 import 'package:todo/ui/pages/add_task_page.dart';
 import 'package:todo/ui/pages/notification_screen.dart';
@@ -22,6 +23,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late NotifyHelper notifyHelper;
+  @override
+  void initState() {
+    super.initState();
+    notifyHelper = NotifyHelper();
+    notifyHelper.initializeNotification();
+  }
   DateTime _selectDate = DateTime.now();
   final TaskController _taskController = Get.put(TaskController());
 
@@ -53,7 +61,15 @@ class _HomeScreenState extends State<HomeScreen> {
   AppBar buildAppBar() =>
       AppBar(
         leading: IconButton(
-          onPressed: () => ThemeServices().switchTheme(),
+          onPressed: () {
+            ThemeServices().switchTheme();
+            NotifyHelper().displayNotification(title: 'Theme changed',
+                body: 'Test');
+            NotifyHelper().scheduledNotification();
+          },
+         
+
+
           icon: Icon(
             Get.isDarkMode
                 ? Icons.wb_sunny_outlined
