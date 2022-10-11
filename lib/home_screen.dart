@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/models/task.dart';
 import 'package:todo/services/notification_services.dart';
 import 'package:todo/services/theme_services.dart';
 import 'package:todo/ui/pages/add_task_page.dart';
@@ -12,6 +13,7 @@ import 'package:todo/ui/size_config.dart';
 import 'package:todo/ui/theme.dart';
 import 'package:todo/ui/widgets/button.dart';
 import 'package:todo/ui/widgets/input_field.dart';
+import 'package:todo/ui/widgets/task_tile.dart';
 
 import 'controllers/task_controller.dart';
 
@@ -39,20 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: context.theme.backgroundColor,
       appBar: buildAppBar(),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _addTaskBar(),
-              _addDateBar(),
-              const SizedBox(
-                height: 6,
-              ),
-              _showTasks(),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _addTaskBar(),
+            _addDateBar(),
+            const SizedBox(
+              height: 6,
+            ),
+            _showTasks(),
+          ],
         ),
       ),
     );
@@ -153,8 +153,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _showTasks() {
-    return _noTaskMsg();
+    return TaskTile(Task(
+      id:5,
+      title: '02020',
+      note:'for Test',
+      isCompleted:4,
+      startTime:'Title 1',
+      endTime:'Title 1',
+      color:2,
+    ));
   }
+
 
   _noTaskMsg() {
     return Stack(
@@ -192,5 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       ],
     );
+  }
+
+  _buildBottomSheet({required String label ,required Function()onTap,
+  required Color clr ,bool isClose = false }){
+    return Container();
   }
 }
